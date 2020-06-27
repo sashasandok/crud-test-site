@@ -3,7 +3,7 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-// import file from './src/api/routes/file'
+import db from './src/database/db_config'
 
 const app = express()
 
@@ -15,8 +15,9 @@ app.all('*', (req, res, next) => {
 })
 
 app.use(cors())
-
 app.use(bodyParser.json())
+
+db()
 
 // app.use('/api', file)
 
