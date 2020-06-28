@@ -37,7 +37,7 @@ export const getProductById = async (req, res, next) => {
 export const createProduct = async (req, res, next) => {
   const query = {
     text:
-      'INSERT INTO product(title, avatar, description, coast) VALUES($1, $2, $3, $4)',
+      'INSERT INTO product(title, avatar, description, coast) VALUES($1, $2, $3, $4) RETURNING *;',
     values: [
       req.body.title,
       req.body.avatar,
@@ -50,7 +50,9 @@ export const createProduct = async (req, res, next) => {
     if (err) {
       console.log(err.stack)
     } else {
-      res.status(200).json('Product successfully deleted')
+      res
+        .status(200)
+        .json({ message: 'Product successfully created', data: data.rows[0] })
     }
   })
 }

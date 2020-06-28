@@ -24,9 +24,11 @@ db.connect((err) => {
   const query = `CREATE TABLE IF NOT EXISTS product (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
-  avatar VARCHAR(255) NOT NULL,
-  description VARCHAR(255) NOT NULL,
-  coast INT
+  avatar VARCHAR(15000) NOT NULL,
+  description VARCHAR(1000) NOT NULL,
+  coast INT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );`
 
   db.query(query, (err) => {
