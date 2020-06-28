@@ -21,6 +21,7 @@ const ProductList = () => {
 
   useFetch(getProducts)
   const products = useSelector((state) => state.product.products)
+  console.log('PROD', products)
 
   const openModal = () => {
     setIsModalOpen(true)

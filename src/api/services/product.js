@@ -62,7 +62,7 @@ export const updateProduct = async (req, res, next) => {
   const id = req.params.productId
 
   const query = {
-    text: `UPDATE product SET title=$1, avatar=$2, description=$3, coast=$4 where id=$5`,
+    text: `UPDATE product SET title=$1, avatar=$2, description=$3, coast=$4 where id=$5 RETURNING *`,
     values: [
       req.body.title,
       req.body.avatar,
@@ -77,9 +77,10 @@ export const updateProduct = async (req, res, next) => {
       console.log(err.stack)
     } else {
       if (data.rowCount > 0) {
-        res
-          .status(200)
-          .json({ message: `Product with id ${id} successfully updated` })
+        res.status(200).json({
+          message: `Product with id ${id} successfully updated`,
+          data: data.rows[0],
+        })
       } else {
         res.status(400).json({ message: `Product with id ${id} not found` })
       }

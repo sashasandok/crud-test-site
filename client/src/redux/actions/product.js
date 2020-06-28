@@ -77,11 +77,11 @@ export const updateProduct = (id, data) => async (dispatch) => {
   dispatch(actions.product.update.request())
 
   try {
-    await api.updateProduct(id, data)
+    const result = await api.updateProduct(id, data)
 
     dispatch(
       actions.product.update.success({
-        product: data,
+        product: result.data,
       }),
     )
   } catch (e) {
