@@ -20,6 +20,23 @@ app.use(bodyParser.json())
 
 // db
 db.connect((err) => {
+  // create table `product` if it not exist
+  const query = `CREATE TABLE IF NOT EXISTS product (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  avatar VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  coast INT
+);`
+
+  db.query(query, (err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('Table products was successfully created')
+    }
+  })
+
   if (err) {
     console.error('connection error', err.stack)
   } else {

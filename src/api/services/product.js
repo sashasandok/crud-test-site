@@ -36,8 +36,14 @@ export const getProductById = async (req, res, next) => {
 // create product
 export const createProduct = async (req, res, next) => {
   const query = {
-    text: 'INSERT INTO product(title, avatar) VALUES($1, $2)',
-    values: [req.body.title, req.body.avatar],
+    text:
+      'INSERT INTO product(title, avatar, description, coast) VALUES($1, $2, $3, $4)',
+    values: [
+      req.body.title,
+      req.body.avatar,
+      req.body.description,
+      req.body.coast,
+    ],
   }
 
   await db.query(query, (err, data) => {
@@ -54,8 +60,14 @@ export const updateProduct = async (req, res, next) => {
   const id = req.params.productId
 
   const query = {
-    text: `UPDATE product SET title=$1, avatar=$2 where id=$3`,
-    values: [req.body.title, req.body.avatar, id],
+    text: `UPDATE product SET title=$1, avatar=$2, description=$3, coast=$4 where id=$5`,
+    values: [
+      req.body.title,
+      req.body.avatar,
+      req.body.description,
+      req.body.coast,
+      id,
+    ],
   }
 
   await db.query(query, (err, data) => {
