@@ -26,6 +26,7 @@ let Product = ({
   const dispatch = useDispatch()
 
   const [isEditable, setIsEditable] = useState(false)
+  const [updatedTitle, setUpdatedTitle] = useState('')
 
   const openEditComponent = () => {
     setIsEditable(true)
@@ -43,9 +44,7 @@ let Product = ({
 
   const submit = (values) => {
     const titles = products.map((i) => i.title)
-    console.log(titles)
-    console.log(values.title)
-    if (titles.includes(values.title)) {
+    if (titles.includes(updatedTitle)) {
       throw new SubmissionError({
         title: 'Title already exists',
       })
@@ -53,6 +52,10 @@ let Product = ({
       dispatch(updateProduct(id, values))
       setIsEditable(false)
     }
+  }
+
+  const onTitleChange = (evt) => {
+    setUpdatedTitle(evt.target.value)
   }
 
   return (
@@ -65,6 +68,7 @@ let Product = ({
               type="text"
               component={renderInput}
               label="title"
+              onChange={onTitleChange}
             />
             <Field
               name="description"
