@@ -5,23 +5,43 @@ import { useSelector } from 'react-redux'
 import { getProducts, createProduct } from '../../redux/actions/product'
 import { useFetch } from '../../customHooks/useFetch'
 import { useDispatch } from 'react-redux'
+// redux form
+import { Field, reduxForm, SubmissionError } from 'redux-form'
 // components
 import Product from '../../components/Product/Product'
 import Button from '../../components/Button/Button'
 import Modal from '../../components/Modal/Modal'
 
-const ProductList = () => {
-  const dispatch = useDispatch()
+const validate = (values) => {
+  const errors = {}
+  return errors
+}
 
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning },
+}) => (
+  <div className="field-wrapper">
+    <label>{label}</label>
+    <div className="input-wrapper">
+      <input {...input} placeholder={label} type={type} />
+      {touched &&
+        ((error && <span style={{ color: 'red' }}>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
+    </div>
+  </div>
+)
+
+const ProductList = (props) => {
+  const { handleSubmit, reset } = props
+
+  const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [newTitle, setNewTitle] = useState('')
-  const [newDescription, setNewDescription] = useState('')
-  const [newCoast, setNewCoast] = useState('')
-  const [newAvatar, setNewAvatar] = useState('')
 
   useFetch(getProducts)
   const products = useSelector((state) => state.product.products)
-  console.log('PROD', products)
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -29,40 +49,19 @@ const ProductList = () => {
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setNewTitle('')
-    setNewDescription('')
-    setNewCoast('')
-    setNewAvatar('')
+    reset()
   }
 
-  const onTitleChange = (evt) => {
-    setNewTitle(evt.target.value)
-  }
-
-  const onDescriptionChange = (evt) => {
-    setNewDescription(evt.target.value)
-  }
-
-  const onCoastChange = (evt) => {
-    setNewCoast(evt.target.value)
-  }
-
-  const onAvatarChange = (evt) => {
-    setNewAvatar(evt.target.value)
-  }
-
-  const onCreateProduct = (evt) => {
-    evt.preventDefault()
-
-    const createData = {
-      title: newTitle,
-      description: newDescription,
-      avatar: newAvatar,
-      coast: newCoast,
+  const submit = (values) => {
+    const titles = products.map((i) => i.title)
+    if (titles.includes(values.title)) {
+      throw new SubmissionError({
+        title: 'Hot-Dog already exists',
+      })
+    } else {
+      dispatch(createProduct(values))
+      closeModal()
     }
-
-    dispatch(createProduct(createData))
-    closeModal()
   }
 
   return (
@@ -99,31 +98,50 @@ const ProductList = () => {
       })}
 
       <Modal show={isModalOpen} closed={closeModal}>
-        <h2>Add New Event</h2>
-        <div className="create-block">
-          <label>title</label>
-          <input type="text" value={newTitle} onChange={onTitleChange} />
-          <label>description</label>
-          <input
+        <h2>Add New Hot-Dog</h2>
+        <form onSubmit={handleSubmit(submit)}>
+          <Field
+            name="title"
             type="text"
-            value={newDescription}
-            onChange={onDescriptionChange}
+            component={renderField}
+            label="title"
           />
-          <label>coast</label>
-          <input type="number" value={newCoast} onChange={onCoastChange} />
-          <label>avatar</label>
-          <textarea type="text" value={newAvatar} onChange={onAvatarChange} />
-          <Button
-            name="save"
-            type="accept"
-            width="100px"
-            height="30px"
-            onButtonClick={(evt) => onCreateProduct(evt)}
+          <Field
+            name="description"
+            type="text"
+            component={renderField}
+            label="description"
           />
-        </div>
+          <Field
+            name="coast"
+            type="number"
+            component={renderField}
+            label="coast"
+          />
+          <Field
+            name="avatar"
+            type="text"
+            component={renderField}
+            label="avatar"
+          />
+          <div>
+            <Button
+              name="no, thanks"
+              type="standart"
+              width="100px"
+              height="30px"
+              onButtonClick={closeModal}
+            />
+            <Button name="add" type="standart" width="100px" height="30px" />
+          </div>
+        </form>
       </Modal>
     </div>
   )
 }
 
-export default ProductList
+export default reduxForm({
+  form: 'createProductForm',
+  validate,
+  // warn,
+})(ProductList)

@@ -100,7 +100,7 @@ export const createProduct = (data) => async (dispatch) => {
 
     dispatch(
       actions.product.post.success({
-        product,
+        product: product[0],
       }),
     )
   } catch (e) {

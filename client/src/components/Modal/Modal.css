@@ -1,21 +1,43 @@
 .modal-wrapper {
-  width: 80%;
+  width: 100%;
 }
 
 .modal {
-  position: fixed;
   z-index: 500;
+  color: black;
   background-color: white;
-  width: 80%;
-  height: 80%;
-  border: 1px solid rgb(109, 109, 109);
-  border-radius: 5px;
-  box-shadow: 4px 4px 8px rgb(75, 75, 75);
-  padding: 16px;
-  left: 10%;
-  top: 10%;
+  max-height: calc(100% - 100px);
+  position: fixed;
+  width: 40%;
+  left: 30%;
+  top: 15%;
+  padding: 26px;
+  transform: translate(-50%, -50%);
   box-sizing: border-box;
   transition: all 0.3s ease-out;
+  border: 7px solid gray;
+  border-radius: 10px;
+}
+
+@media (max-width: 1366px) {
+  .modal {
+    width: 70%;
+    left: 15%;
+  }
+}
+
+@media (max-width: 990px) {
+  .modal {
+    width: 70%;
+    left: 15%;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 90%;
+    left: 5%;
+  }
 }
 
 @media (min-width: 600px) {
