@@ -7,6 +7,7 @@ import { useFetch } from '../../customHooks/useFetch'
 import { useDispatch } from 'react-redux'
 // redux form
 import { Field, reduxForm, SubmissionError } from 'redux-form'
+import { renderInput, renderTextArea } from '../../sharedComponents/Input/Input'
 // components
 import Product from '../../components/Product/Product'
 import Button from '../../components/Button/Button'
@@ -16,23 +17,6 @@ const validate = (values) => {
   const errors = {}
   return errors
 }
-
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning },
-}) => (
-  <div className="field-wrapper">
-    <label>{label}</label>
-    <div className="input-wrapper">
-      <input {...input} placeholder={label} type={type} />
-      {touched &&
-        ((error && <span style={{ color: 'red' }}>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-)
 
 const ProductList = (props) => {
   const { handleSubmit, reset } = props
@@ -93,6 +77,7 @@ const ProductList = (props) => {
             coast={product.coast}
             createdAt={product.createdAt}
             updatedAt={product.updatedAt}
+            products={products}
           />
         )
       })}
@@ -103,25 +88,25 @@ const ProductList = (props) => {
           <Field
             name="title"
             type="text"
-            component={renderField}
+            component={renderInput}
             label="title"
           />
           <Field
             name="description"
             type="text"
-            component={renderField}
+            component={renderInput}
             label="description"
           />
           <Field
             name="coast"
             type="number"
-            component={renderField}
+            component={renderInput}
             label="coast"
           />
           <Field
             name="avatar"
             type="text"
-            component={renderField}
+            component={renderTextArea}
             label="avatar"
           />
           <div>
@@ -143,5 +128,4 @@ const ProductList = (props) => {
 export default reduxForm({
   form: 'createProductForm',
   validate,
-  // warn,
 })(ProductList)

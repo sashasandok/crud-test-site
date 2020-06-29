@@ -60,14 +60,11 @@ export default handleActions(
       error: '',
     }),
 
-    [actions.product.update.success]: (state, { payload }) => {
-      console.log(state, payload)
-      return {
-        ...state,
-        isFetching: false,
-        products: updateCollection(state.products, payload.product),
-      }
-    },
+    [actions.product.update.success]: (state, { payload }) => ({
+      ...state,
+      isFetching: false,
+      products: updateCollection(state.products, payload.product),
+    }),
 
     [actions.product.update.error]: (state, { payload }) => ({
       ...state,
