@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // redux
-import { updateProduct, deleteProduct } from '../../redux/actions/product'
-import { useDispatch, connect } from 'react-redux'
+import {
+  updateProduct,
+  deleteProduct,
+  getProductById,
+} from '../../redux/actions/product'
+import { useDispatch, connect, useSelector } from 'react-redux'
 // redux form
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { renderInput, renderTextArea } from '../../sharedComponents/Input/Input'
@@ -28,6 +32,8 @@ let Product = ({
   const [isEditable, setIsEditable] = useState(false)
   const [updatedTitle, setUpdatedTitle] = useState('')
 
+  const product = useSelector((state) => state.product.product)
+
   const openEditComponent = () => {
     setIsEditable(true)
   }
@@ -40,6 +46,7 @@ let Product = ({
   const onProductDelete = () => {
     dispatch(deleteProduct(id))
     setIsEditable(false)
+    dispatch(reset())
   }
 
   const submit = (values) => {
@@ -56,6 +63,10 @@ let Product = ({
 
   const onTitleChange = (evt) => {
     setUpdatedTitle(evt.target.value)
+  }
+
+  const takeProduct = () => {
+    dispatch(getProductById(id))
   }
 
   return (
@@ -108,7 +119,7 @@ let Product = ({
           </div>
         </form>
       ) : (
-        <div className="product-card">
+        <div className="product-card" onClick={takeProduct}>
           <div className="product-card-content">
             <div className="image-wrapper">
               <img
@@ -137,10 +148,10 @@ let Product = ({
 const mapStateToProps = (state, props) => {
   return {
     initialValues: {
-      title: props.title,
-      description: props.description,
-      coast: props.coast,
-      avatar: props.avatar,
+      title: state?.product?.product?.title,
+      description: state?.product?.product?.description,
+      coast: state?.product?.product?.coast,
+      avatar: state?.product?.product?.avatar,
     },
   }
 }
@@ -149,6 +160,7 @@ Product = reduxForm({
   form: 'updateProductForm',
   validate,
   enableReinitialize: true,
+  destroyOnUnmount: true,
 })(Product)
 
 export default connect(mapStateToProps)(Product)

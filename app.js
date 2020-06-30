@@ -48,6 +48,6 @@ db.connect((err) => {
 
 app.use('/api', product)
 
-app.listen(process.env.PORT, () => {
-  console.log(`App is listening on port: ${process.env.PORT}`)
+app.listen(process.env.APPPORT, () => {
+  console.log(`App is listening on port: ${process.env.APPPORT}`)
 })

@@ -63,7 +63,7 @@ export const getProductById = (id) => async (dispatch) => {
 
     dispatch(
       actions.product.getById.success({
-        product,
+        product: product[0],
       }),
     )
   } catch (e) {
