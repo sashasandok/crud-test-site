@@ -1,7 +1,7 @@
 import 'regenerator-runtime'
-import { Pool } from 'pg'
+import { Client } from 'pg'
 
-export const db = new Pool({
+export const db = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 })
