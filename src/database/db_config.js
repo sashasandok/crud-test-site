@@ -3,13 +3,15 @@ import { Client } from 'pg'
 
 export const db = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 })
 
-// export const db = new Pool({
+// export const db = new Client({
 //   user: 'postgres',
 //   host: '127.0.0.1',
 //   database: 'test-app',
-//   password: 'lesenka',
+//   password: '',
 //   port: 5432,
 // })

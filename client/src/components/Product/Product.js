@@ -5,7 +5,7 @@ import {
   deleteProduct,
   getProductById,
 } from '../../redux/actions/product'
-import { useDispatch, connect, useSelector } from 'react-redux'
+import { useDispatch, connect } from 'react-redux'
 // redux form
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { renderInput, renderTextArea } from '../../sharedComponents/Input/Input'
@@ -31,8 +31,6 @@ let Product = ({
 
   const [isEditable, setIsEditable] = useState(false)
   const [updatedTitle, setUpdatedTitle] = useState('')
-
-  const product = useSelector((state) => state.product.product)
 
   const openEditComponent = () => {
     setIsEditable(true)
