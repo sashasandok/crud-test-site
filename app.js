@@ -3,8 +3,8 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import product from './src/api/routes/product'
-import { db } from './src/database/db_config'
+import product from './server/src/api/routes/product'
+import { db } from './server/src/database/db_config'
 
 const app = express()
 const port = process.env.PORT || 4000
