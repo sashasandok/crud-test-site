@@ -6,6 +6,7 @@ import bodyParser from 'body-parser'
 import favicon from 'express-favicon'
 import product from './server/src/api/routes/product'
 import { db } from './server/src/database/db_config'
+import path from 'path'
 
 const app = express()
 const port = process.env.PORT || 4000
