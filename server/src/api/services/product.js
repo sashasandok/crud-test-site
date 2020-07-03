@@ -2,7 +2,7 @@ import { db } from '../../database/db_config'
 
 // get product list
 export const getProducts = async (req, res, next) => {
-  const query = `SELECT * FROM product`
+  const query = 'SELECT * FROM product;'
   await db.query(query, (err, data) => {
     if (err) {
       console.log(err.stack)
@@ -16,7 +16,7 @@ export const getProducts = async (req, res, next) => {
 export const getProductById = async (req, res, next) => {
   const id = req.params.productId
   const query = {
-    text: `SELECT * FROM product WHERE id=$1`,
+    text: 'SELECT * FROM product WHERE id=$1;',
     values: [id],
   }
 
@@ -62,7 +62,8 @@ export const updateProduct = async (req, res, next) => {
   const id = req.params.productId
 
   const query = {
-    text: `UPDATE product SET title=$1, avatar=$2, description=$3, coast=$4 where id=$5 RETURNING *`,
+    text:
+      'UPDATE product SET title=$1, avatar=$2, description=$3, coast=$4 where id=$5 RETURNING *',
     values: [
       req.body.title,
       req.body.avatar,
