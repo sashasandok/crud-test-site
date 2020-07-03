@@ -16,6 +16,8 @@ app.all('*', (req, res, next) => {
   next()
 })
 
+app.use(favicon(__dirname + '/build/favicon.ico'))
+
 app.use(cors())
 app.use(bodyParser.json())
 
