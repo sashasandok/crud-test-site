@@ -50,6 +50,13 @@ db.connect((err) => {
   }
 })
 
+app.use(express.static(__dirname))
+app.use(express.static(path.join(__dirname, 'build')))
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
 app.use('/api', product)
 
 app.listen(port, () => {
