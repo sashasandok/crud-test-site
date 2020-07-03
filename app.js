@@ -7,6 +7,7 @@ import product from './src/api/routes/product'
 import { db } from './src/database/db_config'
 
 const app = express()
+const port = process.env.PORT || 4000
 
 app.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -48,6 +49,6 @@ db.connect((err) => {
 
 app.use('/api', product)
 
-app.listen(process.env.APPPORT, () => {
-  console.log(`App is listening on port: ${process.env.APPPORT}`)
+app.listen(port, () => {
+  console.log(`App is listening on port: ${port}`)
 })
