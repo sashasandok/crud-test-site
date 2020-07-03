@@ -3,6 +3,7 @@ dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import favicon from 'express-favicon'
 import product from './server/src/api/routes/product'
 import { db } from './server/src/database/db_config'
 
